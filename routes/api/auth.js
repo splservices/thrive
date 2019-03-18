@@ -5,7 +5,7 @@ const checkToken = (req, res, next)=>{
     let token = req.headers['x-access-token'] || req.headers['authorization'];
     if(token && token.startsWith('Bearer ')){
         token = token.slice(7, token.length)
-    };
+    }
     if(token){
         jwt.verify(token, secret, (err, decoded)=>{
             if(err){
@@ -56,5 +56,8 @@ const loginUser = (req, res)=>{
 };
 const registerUser = ()=>{};
 
+
 router.post('/login', loginUser);
 router.post('/register', registerUser);
+
+module.exports = router;
