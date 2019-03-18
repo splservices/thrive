@@ -1,7 +1,7 @@
+'use strict'
 const mongoose = require("mongoose");
-const bycrypt = require("bycryptjs");
+const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
-
 // Create Schema
 const UserSchema = new Schema({
     created:{
@@ -14,12 +14,11 @@ const UserSchema = new Schema({
     },
     username:{
         type:String,
-        required:true,
-        unique:true
+        required:true
     },
     email: {
         type: String,
-        required: true
+        required: true,
     },
     hashed_password: {
         type: String,
@@ -57,15 +56,35 @@ const UserSchema = new Schema({
         type:Boolean,
         default:false
     }
+},
+
+{
+    toObject: {
+        virtuals: true
+    }
+,
+    toJSON: {
+        virtuals: true
+    }
 });
 
+UserSchema.virtual('password')
+    .set(function(password){
+        this._password = password;
+        this.hashed_password = this.hashPassword(password)
+    })
+    .get(function(){
+    return this._password;
+});
+
+
+//Methods
 UserSchema.methods = {
-    hashPassword: (password)=>{
-        let salt = bcyrypt.getSaltSync(10);
-        let hashed_password = bycrypt.hashSync(password, salt);
+    hashPassword: function(password){
+        let hashed_password = bcrypt.hashSync(password, 8);
         return hashed_password;
     },
-    toJSON:()=>{
+    toJSON:function(){
         let obj = this.toObject();
         obj.onlineStatus = obj.socketId?true:false;
         delete obj.socketId;
@@ -78,4 +97,5 @@ UserSchema.methods = {
     }
 };
 
-module.exports = User = mongoose.model("users", UserSchema);
+ const User = mongoose.model("users", UserSchema);
+ module.exports = User;

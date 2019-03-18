@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+const User = require('../../models/user.model');
 
 const checkToken = (req, res, next)=>{
     let token = req.headers['x-access-token'] || req.headers['authorization'];
@@ -54,7 +57,39 @@ const loginUser = (req, res)=>{
         })
     }
 };
-const registerUser = ()=>{};
+const registerUser = (req, res)=>{
+
+    let newUser = new User(req.body);
+    //console.log(user);
+    // res.json(user);
+    User.findOne({email:req.body.email}, (err, userWithEmail)=>{
+        if(err) throw err;
+        if(userWithEmail){
+            res.json({
+                success:false,
+                message:'Email is already Registered.'
+            })
+        }else{
+            User.findOne({username:req.body.username},(err, userWithUsername)=>{
+                if(err) throw err;
+                if(userWithUsername){
+                    res.json({
+                        success:false,
+                        message:'Username is already taken'
+                    })
+                }else{
+                    newUser.save(function(err){
+                        if(err) throw err;
+                        res.json({
+                            success:true,
+                            message:'User Created Successfully'
+                        })
+                    })
+                }
+            })
+        }
+    });
+};
 
 
 router.post('/login', loginUser);
