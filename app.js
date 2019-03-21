@@ -27,24 +27,7 @@ app.use(cors());
 
 
 app.use(express.static('build'));
-app.use((req, res, next)=>{
-    if(req.method === 'POST'){
-        var dataUpper = {};
-        req.on('data', function(chunk) {
-            console.log(chunk)
-            var dataString = chunk.toString();
-            dataUpper = dataString.toUpperCase();
-            log.info({"received body data": dataUpper });
-        });
 
-        req.on('end', function() {
-            res.writeHead(200, "OK", {'Content-Type': 'text/plain' });
-            res.end(dataUpper);
-        });
-        next();
-    }
-
-});
 
 
 app.use('/api', index);
