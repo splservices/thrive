@@ -5,6 +5,7 @@ const loginDetail = {
         email:Joi.string().required(),
         password:Joi.string().required()
     })
+
 };
 
-module.export = { loginDetail }
+module.exports = { loginDetail }

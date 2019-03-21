@@ -37,7 +37,8 @@ const loginUser = (req, res)=>{
         if(user){
             let checkPassword = bcrypt.compareSync(password, user.hashed_password);
             if(checkPassword){
-                let token  = jwt.sign({username:username}, secret, {expiresIn:'24h'});
+
+                let token  = jwt.sign({email:email}, secret, {expiresIn:'24h'});
                 res.json({
                     success:true,
                     message:'Login Successfully',
