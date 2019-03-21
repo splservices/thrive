@@ -31,7 +31,7 @@ const checkToken = (req, res, next)=>{
 
 const loginUser = (req, res)=>{
     const email = req.body.email.toLowerCase();
-
+    const {password} = req.body
 
     User.findOne({email:email}, (err, user)=>{
         if(err) throw err;
