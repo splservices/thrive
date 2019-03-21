@@ -5,7 +5,7 @@ const {loginUser, registerUser} = require('../../controllers/user.controller');
 const  { celebrate, Joi }  = require('celebrate');
 
 router.post('/login', celebrate(loginValidation.loginDetail),loginUser);
-router.post('/register', registerUser);
+router.post('/register', celebrate(loginValidation.registerDetail), registerUser);
 
 router.post('/test', celebrate(loginValidation.loginDetail), (req, res) => {});
 
