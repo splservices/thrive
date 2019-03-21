@@ -30,7 +30,8 @@ const checkToken = (req, res, next)=>{
 };
 
 const loginUser = (req, res)=>{
-    const {email, password} = req.body;
+    const email = req.body.email.toLowerCase();
+
 
     User.findOne({email:email}, (err, user)=>{
         if(err) throw err;
@@ -61,10 +62,13 @@ const loginUser = (req, res)=>{
 };
 const registerUser = (req, res)=>{
 
-    let newUser = new User(req.body);
-    //console.log(user);
-    // res.json(user);
-    User.findOne({email:req.body.email}, (err, userWithEmail)=>{
+    const name = req.body.name.toLowerCase();
+    const username = req.body.username.toLowerCase();
+    const email = req.body.email.toLowerCase();
+    const password = req.body.password;
+    let newUser = new User({name, username, email, password});
+
+    User.findOne({email:email}, (err, userWithEmail)=>{
         if(err) throw err;
         if(userWithEmail){
             res.json({
@@ -72,7 +76,7 @@ const registerUser = (req, res)=>{
                 message:'Email is already Registered.'
             })
         }else{
-            User.findOne({username:req.body.username},(err, userWithUsername)=>{
+            User.findOne({username:username},(err, userWithUsername)=>{
                 if(err) throw err;
                 if(userWithUsername){
                     res.json({
