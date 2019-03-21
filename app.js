@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const { errors } = require('celebrate')
 
 const index = require('./routes/index');
 
@@ -32,7 +33,7 @@ app.use('*',(req, res, next)=>{
 
 });
 
-
+app.use(errors());
 
 
 

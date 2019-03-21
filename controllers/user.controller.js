@@ -30,9 +30,9 @@ const checkToken = (req, res, next)=>{
 };
 
 const loginUser = (req, res)=>{
-    let username = req.body.username;
-    let password = req.body.password;
-    User.findOne({username:username}, (err, user)=>{
+    const {email, password} = req.body;
+
+    User.findOne({email:email}, (err, user)=>{
         if(err) throw err;
         if(user){
             let checkPassword = bcrypt.compareSync(password, user.hashed_password);
@@ -52,7 +52,7 @@ const loginUser = (req, res)=>{
         }else{
             res.json({
                 success:false,
-                message:'Username is not valid'
+                message:'Email Address is not valid'
             })
         }
     });
