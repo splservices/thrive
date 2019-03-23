@@ -27,12 +27,15 @@ module.exports = function(passport){
         },
         function(accessToken, refreshToken, profile, cb) {
         console.log(accessToken);
-            User.findOne({ googleId: profile.id }, function (err, user) {
-                console.log(`err`);
-                console.log(err);
-                console.log(user);
-                return cb(err, user);
-            });
+        console.log(profile)
+            // User.findOne({ googleId: profile.id }, function (err, user) {
+            //     if(user){
+            //
+            //     }else{
+            //         //create user
+            //     }
+            //     return cb(err, user);
+            // });
         }
     ));
 

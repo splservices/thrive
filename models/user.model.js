@@ -41,6 +41,10 @@ const UserSchema = new Schema({
         type:Boolean,
         default:false
     },
+    googleId:{
+      type:String,
+        default:''
+    },
     notification:[{
         post: {type:Schema.ObjectId, ref:'Post'},
         user: {type:Schema.ObjectId, ref:'User'},
