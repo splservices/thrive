@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const { errors } = require('celebrate');
 const passport = require('passport');
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 const index = require('./routes/index');
 
@@ -24,6 +25,8 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(boom());
 app.use(cors());
+
+require('./config/passport')(passport); // pass passport for configuration
 
 app.use(passport.initialize());
 app.use(passport.session());

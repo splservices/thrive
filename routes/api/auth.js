@@ -6,7 +6,10 @@ const  { celebrate, Joi }  = require('celebrate');
 const passport = require('passport');
 
 
-router.post('/facebook', passport.authenticate('facebook', {scop:['email','public_profile']}));
+router.get('/facebook', passport.authenticate('facebook', {scop:['email','public_profile']}));
+
+router.get('/facebook', passport.authenticate('facebook', { scope : ['public_profile', 'email'] }));
+
 
 router.get('/facebook/callback', passport.authenticate('facebook',{
     successRedirect:'/feed',

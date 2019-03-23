@@ -1,12 +1,10 @@
-var LocalStrategy    = require('passport-local').Strategy;
+
 var FacebookStrategy = require('passport-facebook').Strategy;
 const fbConfig = require('./constant').facebook;
 
 // load up the user model
-var User       = require('../models/user.model');
+const User  = require('../models/user.model');
 
-// load the auth variables
-var configAuth = require('./auth');
 
 module.exports = function(passport){
     // used to serialize the user for the session
