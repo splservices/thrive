@@ -26,10 +26,13 @@ module.exports = function(passport){
             callbackURL: config.google.url
         },
         function(accessToken, refreshToken, profile, cb) {
-        console.log(accessToken)
-            // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            //     return cb(err, user);
-            // });
+        console.log(accessToken);
+            User.findOne({ googleId: profile.id }, function (err, user) {
+                console.log(`err`);
+                console.log(err);
+                console.log(user);
+                return cb(err, user);
+            });
         }
     ));
 
