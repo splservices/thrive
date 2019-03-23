@@ -27,15 +27,25 @@ module.exports = function(passport){
         },
         function(accessToken, refreshToken, profile, cb) {
         console.log(accessToken);
-        console.log(profile)
-            // User.findOne({ googleId: profile.id }, function (err, user) {
-            //     if(user){
-            //
-            //     }else{
-            //         //create user
-            //     }
-            //     return cb(err, user);
-            // });
+        console.log(profile);
+            User.findOne({ googleId: profile.id }, function (err, user) {
+                if(user){
+                    return cb(err, user);
+                }else{
+                    let newUser = new User({
+                        name:profile.name,
+                        username:profile.name,
+                        email:profile.name,
+                        password:'dummy'
+                    });
+
+                    newUser.save((err)=>{
+                        if(err) throw err;
+                        return cb(err, user);
+                    })
+                }
+
+            });
         }
     ));
 

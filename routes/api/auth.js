@@ -14,7 +14,7 @@ router.get('/facebook/callback', passport.authenticate('facebook',{
 }));
 
 router.get('/google',
-    passport.authenticate('google', { scope: ['profile'] }));
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
