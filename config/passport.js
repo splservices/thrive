@@ -33,7 +33,7 @@ module.exports = function(passport){
                     return cb(err, user);
                 }else{
                     let newUser = new User({
-                        name:profile._.json.name,
+                        name:profile._json.name,
                         username:profile._json.name+'unique',
                         email:profile._json.email,
                         password:'dummy'
