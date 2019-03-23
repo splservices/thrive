@@ -12,6 +12,7 @@ const path = require('path');
 const { errors } = require('celebrate');
 const passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const index = require('./routes/index');
 

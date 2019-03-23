@@ -8,13 +8,21 @@ const passport = require('passport');
 
 router.get('/facebook', passport.authenticate('facebook', {scop:['email','public_profile']}));
 
-router.get('/facebook', passport.authenticate('facebook', { scope : ['public_profile', 'email'] }));
-
-
 router.get('/facebook/callback', passport.authenticate('facebook',{
     successRedirect:'/feed',
     failureRedirect:'/login'
 }));
+
+router.get('/google',
+    passport.authenticate('google', { scope: ['profile'] }));
+
+router.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+
+        res.redirect('/feed');
+    });
 
 router.post('/login', celebrate(loginValidation.loginDetail),loginUser);
 router.post('/register', celebrate(loginValidation.registerDetail), registerUser);

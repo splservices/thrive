@@ -1,6 +1,7 @@
 
 var FacebookStrategy = require('passport-facebook').Strategy;
-const fbConfig = require('./constant').facebook;
+const config = require('./constant');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // load up the user model
 const User  = require('../models/user.model');
@@ -19,10 +20,23 @@ module.exports = function(passport){
         });
     });
 
+    passport.use(new GoogleStrategy({
+            clientID: config.google.app_id,
+            clientSecret: config.google.app_secret,
+            callbackURL: config.google.url
+        },
+        function(accessToken, refreshToken, profile, cb) {
+        console.log(accessToken)
+            // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            //     return cb(err, user);
+            // });
+        }
+    ));
+
     passport.use(new FacebookStrategy({
-        clientID: fbConfig.app_id,
-        clientSecret: fbConfig.app_secret,
-        callbackURL: fbConfig.url
+        clientID: config.facebook.app_id,
+        clientSecret: config.facebook.app_secret,
+        callbackURL: config.facebook.url
     }, function(token, refreshToken, profile, done){
         process.nextTick(function(){
             User.findOne({'facebook_id':profile.id}, function(err, user){
