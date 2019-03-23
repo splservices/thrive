@@ -22,7 +22,6 @@ const UserSchema = new Schema({
     },
     hashed_password: {
         type: String,
-        required: true
     },
     following:[ {
         type: Schema.ObjectId,

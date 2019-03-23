@@ -33,15 +33,15 @@ module.exports = function(passport){
                     return cb(err, user);
                 }else{
                     let newUser = new User({
-                        name:profile.name,
-                        username:profile.name,
-                        email:profile.name,
+                        name:profile._.json.name,
+                        username:profile._json.name+'unique',
+                        email:profile._json.email,
                         password:'dummy'
                     });
 
                     newUser.save((err)=>{
                         if(err) throw err;
-                        return cb(err, user);
+                        return cb(err, newUser);
                     })
                 }
 
