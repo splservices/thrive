@@ -9,7 +9,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const { errors } = require('celebrate')
+const { errors } = require('celebrate');
+const passport = require('passport');
 
 const index = require('./routes/index');
 
@@ -24,6 +25,8 @@ app.use(helmet());
 app.use(boom());
 app.use(cors());
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.use(express.static('build'));
