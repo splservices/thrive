@@ -26,7 +26,15 @@ module.exports = function(passport){
             callbackURL: config.google.url
         },
         function(accessToken, refreshToken, profile, cb) {
-
+            // User.findOne({email:profile._json.email}, (err, user)=>{
+            //     //if user exists
+            //     if(user){
+            //         //let in
+            //     }else{
+            //         // then create
+            //     }
+            //
+            // })
             User.findOne({ googleId: profile.id }, function (err, user) {
                 if(user){
                     return cb(err, user);
