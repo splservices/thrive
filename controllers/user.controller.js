@@ -43,7 +43,8 @@ const loginUser = (req, res)=>{
                 res.json({
                     success:true,
                     message:'Login Successfully',
-                    token:token
+                    token:token,
+                    data:user
                 })
             }else{
                 res.json({
