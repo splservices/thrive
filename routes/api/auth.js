@@ -28,10 +28,7 @@ router.get('/authToken/:email', (req, res)=>{
     res.send({email:email})
 });
 
-router.post('/login', passport.authenticate('local'), (req,res)=>{
-    let user = req.user;
-    res.json({success:true, message:'Logged In Successfully!',  data:user})
-});
+router.post('/login', celebrate(loginValidation.loginDetail),loginUser);
 router.post('/register', celebrate(loginValidation.registerDetail), registerUser);
 
 router.post('/test', celebrate(loginValidation.loginDetail), (req, res) => {});

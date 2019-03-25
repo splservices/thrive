@@ -26,19 +26,22 @@ module.exports = function(passport){
         function(username, password, done) {
 
             User.findOne({email:username}, (err, user)=>{
-
+            console.log(`username ${username}`)
                 if(err) return done(err);
                 if(user){
                     let checkPassword = bcrypt.compareSync(password, user.hashed_password);
 
                     if(checkPassword){
+                        console.log(`password success`)
                         //let token  = jwt.sign({email:email}, secret, {expiresIn:'24h'});
                         return done(null, user)
                     }else{
-                        return done(null, false)
+                        console.log(`password failed`)
+                        return done({success:false}, false)
                     }
                 }else{
-                    return done(null, false)
+                    console.log(`auth failed`)
+                    done(null, false)
                 }
             });
         }
