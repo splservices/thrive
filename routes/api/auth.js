@@ -23,7 +23,15 @@ router.get('/google/callback',
         res.redirect('/feed');
     });
 
-router.post('/login', celebrate(loginValidation.loginDetail),loginUser);
+router.get('/authToken/:email', (req, res)=>{
+    const email = req.params.email;
+    res.send({email:email})
+});
+
+router.post('/login', passport.authenticate('local'), (req,res)=>{
+    let user = req.user;
+    res.json({success:true, message:'Logged In Successfully!',  data:user})
+});
 router.post('/register', celebrate(loginValidation.registerDetail), registerUser);
 
 router.post('/test', celebrate(loginValidation.loginDetail), (req, res) => {});

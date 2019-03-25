@@ -1,7 +1,9 @@
 
 var FacebookStrategy = require('passport-facebook').Strategy;
 const config = require('./constant');
+const bcrypt = require('bcryptjs');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 
 // load up the user model
 const User  = require('../models/user.model');
@@ -20,21 +22,35 @@ module.exports = function(passport){
         });
     });
 
+    passport.use(new LocalStrategy(
+        function(username, password, done) {
+
+            User.findOne({email:username}, (err, user)=>{
+
+                if(err) return done(err);
+                if(user){
+                    let checkPassword = bcrypt.compareSync(password, user.hashed_password);
+
+                    if(checkPassword){
+                        //let token  = jwt.sign({email:email}, secret, {expiresIn:'24h'});
+                        return done(null, user)
+                    }else{
+                        return done(null, false)
+                    }
+                }else{
+                    return done(null, false)
+                }
+            });
+        }
+    ));
+
     passport.use(new GoogleStrategy({
             clientID: config.google.app_id,
             clientSecret: config.google.app_secret,
             callbackURL: config.google.url
         },
         function(accessToken, refreshToken, profile, cb) {
-            // User.findOne({email:profile._json.email}, (err, user)=>{
-            //     //if user exists
-            //     if(user){
-            //         //let in
-            //     }else{
-            //         // then create
-            //     }
-            //
-            // })
+
             User.findOne({ googleId: profile.id }, function (err, user) {
                 if(user){
                     return cb(err, user);
