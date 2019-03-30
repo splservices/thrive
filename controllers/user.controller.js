@@ -36,6 +36,8 @@ const loginUser = (req, res)=>{
     User.findOne({email:email}, (err, user)=>{
         if(err) throw err;
         if(user){
+            let hashed_password = user.hashed_password || null;
+            if(!hashed_password) return res.json({message:'eeror'})
             let checkPassword = bcrypt.compareSync(password, user.hashed_password);
             if(checkPassword){
 
@@ -55,7 +57,7 @@ const loginUser = (req, res)=>{
         }else{
             res.json({
                 success:false,
-                message:'Email Address is not valid'
+                message:'Email Address is not registered'
             })
         }
     });
