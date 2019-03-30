@@ -28,8 +28,10 @@ router.get('/authToken/:email', (req, res)=>{
     res.send({email:email})
 });
 
-router.post('/login', celebrate(loginValidation.loginDetail),loginUser);
-router.post('/register', celebrate(loginValidation.registerDetail), registerUser);
+// celebrate(loginValidation.loginDetail),
+
+router.post('/login', loginUser);
+router.post('/register', registerUser);
 
 router.post('/test', celebrate(loginValidation.loginDetail), (req, res) => {});
 

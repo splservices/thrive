@@ -10,7 +10,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const { errors } = require('celebrate');
+//const { errors } = require('celebrate');
 const passport = require('passport');
 
 const index = require('./routes/index');
@@ -49,7 +49,7 @@ app.use('*',(req, res, next)=>{
 
 
 
-app.use(errors());
+//app.use(errors());
 
 
 module.exports = { app };
