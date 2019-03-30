@@ -7,7 +7,7 @@ var process = require('process');
 const mongoose = require('../config/mongo-connection')
 
 // Get port from environment and store in Express.
-var port = normalizePort(process.env.PORT || 8080);
+var port = normalizePort(process.env.PORT || 3000);
 app.set('port', port);
 app.set('connectedMachines', {});
 
