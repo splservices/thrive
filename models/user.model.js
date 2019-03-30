@@ -20,6 +20,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    face:{
+      type:String,
+      default:'https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwimz9375KrhAhUPUI8KHWXDAAAQjRx6BAgBEAU&url=http%3A%2F%2Fnisatas.j-plus.co%2Fdefault-avatar-png%2F&psig=AOvVaw1lIOGqWCIfVnzZ4YPQQyp0&ust=1554066840356051'
+    },
     hashed_password: {
         type: String,
     },
@@ -100,5 +104,5 @@ UserSchema.methods = {
     }
 };
 
- const User = mongoose.model("users", UserSchema);
+ const User = mongoose.model("User", UserSchema);
  module.exports = User;

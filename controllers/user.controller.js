@@ -12,19 +12,26 @@ const checkToken = (req, res, next)=>{
     if(token){
         jwt.verify(token, secret, (err, decoded)=>{
             if(err){
-                return res.json({
+                return res.status(403).json({
                     success:false,
-                    message:'Token is not valid'
+                    message:'Unauthorized'
                 })
             }else{
                 req.decoded = decoded;
-                next();
+                User.findOne({email:decoded.email},(err, user)=>{
+                    if(err) throw err;
+                    if(user){
+                        req.user = user;
+                        next();
+                    }
+                })
+
             }
         })
     }else{
-        return res.json({
+        return res.status(403).json({
             success:false,
-            message:'Auth token is not supplied'
+            message:'Unauthorized'
         })
     }
 };
