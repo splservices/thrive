@@ -41,6 +41,7 @@ app.use(express.static('build'));
 
 app.use('/api', index);
 app.use('*',(req, res, next)=>{
+    console.log('rendering html');
     var output = fs.readFileSync(__dirname + '/build/index.html');
     res.type('html').send(output);
     //next();
