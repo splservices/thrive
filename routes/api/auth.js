@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const loginValidation = require('../../validations/api.validation');
+//const loginValidation = require('../../validations/api.validation');
 const {loginUser, registerUser} = require('../../controllers/user.controller');
 const  { celebrate, Joi }  = require('celebrate');
 const passport = require('passport');
@@ -33,6 +33,6 @@ router.get('/authToken/:email', (req, res)=>{
 router.post('/login', loginUser);
 router.post('/register', registerUser);
 
-router.post('/test', celebrate(loginValidation.loginDetail), (req, res) => {});
+router.post('/test',  (req, res) => {});
 
 module.exports = router;
