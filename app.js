@@ -18,12 +18,12 @@ const index = require('./routes/index');
 
 const app = express();
 
-app.use(bodyParser.json({limit:'1mb'}));
-app.use(bodyParser.urlencoded({limit:'1mb',extended:true}));
-app.use(cookieParser());
-app.use(helmet());
-app.use(boom());
-app.use(cors());
+// app.use(bodyParser.json({limit:'1mb'}));
+// app.use(bodyParser.urlencoded({limit:'1mb',extended:true}));
+// app.use(cookieParser());
+// app.use(helmet());
+// app.use(boom());
+// app.use(cors());
 
 console.log('app is working fine')
 
