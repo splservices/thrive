@@ -18,15 +18,15 @@ const checkToken = (req, res, next)=>{
                 })
             }else{
                 req.decoded = decoded;
-                console.log(decoded.email);
-                User.findOne({email:decoded.email},(err, user)=>{
-                    if(err) throw err;
-                    if(user){
-                        req.user = user;
-                        next();
-                    }
-                })
-
+                User.findOne({email:decoded.email})
+                    .populate('following')
+                    .exec((err, user)=>{
+                        if(err) throw err;
+                        if(user){
+                            req.user = user;
+                            next();
+                        }
+                    });
             }
         })
     }else{

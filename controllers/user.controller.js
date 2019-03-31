@@ -17,12 +17,20 @@ const singleUser = (req, res)=>{
                 //Get the Followers
                 User.find({following:user._id}, (err, followers)=>{
                     if(err) throw err;
+                    const result = req.user.following.filter(item=>{
+                        return item.username === user.username
+                    })
                     return res.json({
                         data:user,
                         followers:followers,
                         following:user.following,
-                        alreadyFollowing:_.size(req.user.following.filter((item)=>item.username ===user.username))?true:false
+                        alreadyFollowing:!!_.size(req.user.following.filter((item) => item.username === user.username))
                     })
+                })
+            }else{
+                return res.json({
+                    success:false,
+                    message:'User not Found'
                 })
             }
         })
