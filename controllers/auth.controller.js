@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secret = require('../config/constant').jwt_secret;
 const User = require('../models/user.model');
+const { sendMail } = require('./mailer.controller');
 
 const checkToken = (req, res, next)=>{
     let token = req.headers['x-access-token'] || req.headers['authorization'];
@@ -98,6 +99,7 @@ const registerUser = (req, res)=>{
                 }else{
                     newUser.save(function(err){
                         if(err) throw err;
+                        sendMail(newUser);
                         res.json({
                             success:true,
                             message:'User Created Successfully'

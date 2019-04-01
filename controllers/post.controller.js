@@ -3,18 +3,20 @@ const Post = require('../models/post.model');
 
 const createPost = (req, res)=>{
     let newPost = new Post(req.body);
-    newPost.creator = req.user._id;
-    newPost.save((err)=>{
-        if(err) throw err;
+    newPost.creator = req.user;
+
+    newPost.save(err=>{
         res.json({
             success:true,
             data:newPost
         })
     })
+
 };
 
 const getAllPosts = (req, res)=>{
     let user = req.user;
+    console.log(user)
     let criteria = {
         creator: {$in:user.following.concat(user._id)}
     };
@@ -29,5 +31,15 @@ const getAllPosts = (req, res)=>{
 
 };
 
-module.exports = {createPost,getAllPosts};
+const deletePost = (req, res)=>{
+    Post.remove({_id:''}, (err, post)=>{
+        if(err) throw err;
+        res.json({
+            success:true,
+            message:'Successfully Deleted'
+        })
+    })
+};
+
+module.exports = {createPost,getAllPosts, deletePost};
 

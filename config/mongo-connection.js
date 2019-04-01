@@ -23,5 +23,5 @@ mongoose.connection.on('error', err => {
 });
 
 // When the connection is disconnected
-mongoose.connection.on('disconnected', () => logger.error(`Mongoose default connection disconnected`));
+mongoose.connection.on('disconnected', () => console.info(`Mongoose default connection disconnected`));
 module.exports = mongoose.connection;

@@ -13,7 +13,21 @@ const path = require('path');
 //const { errors } = require('celebrate');
 const passport = require('passport');
 
+
 const index = require('./routes/index');
+
+
+
+
+
+var mailOptions = {
+    from: 'pradeep98208@gmail.com',
+    to: 'pk9654048874@gmail.com',
+    subject: 'Sending Email using Node.js',
+    html: '<h1>That was easy!</h1>'
+};
+
+
 
 const app = express();
 

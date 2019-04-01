@@ -10,20 +10,18 @@ const singleUser = (req, res)=>{
     criteria.username = req.params.userId;
 
     User.findOne(criteria)
-        // .populate('following')
+        .populate('following')
         .exec((err, user)=>{
             if(err) throw err;
             if(user){
                 //Get the Followers
                 User.find({following:user._id}, (err, followers)=>{
                     if(err) throw err;
-                    const result = req.user.following.filter(item=>{
-                        return item.username === user.username
-                    })
                     return res.json({
                         data:user,
                         followers:followers,
                         following:user.following,
+                        self:(req.user.username === criteria.username),
                         alreadyFollowing:!!_.size(req.user.following.filter((item) => item.username === user.username))
                     })
                 })
@@ -38,9 +36,18 @@ const singleUser = (req, res)=>{
 
 const followUser = (req,res)=>{
     let currentUser = req.user;
-    console.log(`current user`);
-    console.log(currentUser)
     let toFollow = req.param('userId');
+
+    let already = currentUser.following.filter(function(item) {
+        return item.username === toFollow;
+    }).length;
+    if (already) {
+        return res.json({
+            success:false,
+            message:'You are already following'
+        })
+    }
+
     User.findOne({username:toFollow}, (err, user)=>{
         currentUser.following.push(user._id);
         currentUser.save((err, item)=>{
@@ -48,9 +55,34 @@ const followUser = (req,res)=>{
                 data:item
             })
         })
+    })
+};
 
+const unfollowUser = (req, res)=>{
+    let currentUser = req.user;
+    let toUnfollow = req.param('userId');
+
+    let already = currentUser.following.filter(function(item) {
+        return item.username === toUnfollow;
+    }).length;
+    if (!already) {
+        return res.json({
+            success:false,
+            message:'You are already not following'
+        })
+    }
+
+    User.findOne({username:toUnfollow}, (err, user)=>{
+        if(err) throw err;
+        currentUser.following.splice(currentUser.following.indexOf(user._id), 1);
+        currentUser.save((err, item)=>{
+            if(err) throw err;
+            res.json({
+                data:item
+            })
+        })
     })
 };
 
 
-module.exports = { singleUser, followUser };
+module.exports = { singleUser, followUser, unfollowUser };
