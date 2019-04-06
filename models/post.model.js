@@ -21,11 +21,16 @@ var PostSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    content: {
+    description: {
         type: String,
-        required: true,
-        get: escapeProperty
+        required: true
     },
+    attachments:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:'Media'
+        }
+    ],
     comments: [{
         created: {
             type: Date,
@@ -33,8 +38,7 @@ var PostSchema = new Schema({
         },
         content: {
             type: String,
-            required: true,
-            get: escapeProperty
+            required: true
         },
         creator: {
             type: Schema.ObjectId,

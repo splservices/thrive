@@ -6,28 +6,14 @@ const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const boom = require('express-boom');
 const session = require('express-session');
-const busboy = require('connect-busboy');
-const busboyBodyParser = require('busboy-body-parser')
 const helmet = require('helmet');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-
 //const { errors } = require('celebrate');
 const passport = require('passport');
 
-
 const index = require('./routes/index');
-
-
-var mailOptions = {
-    from: 'pradeep98208@gmail.com',
-    to: 'pk9654048874@gmail.com',
-    subject: 'Sending Email using Node.js',
-    html: '<h1>That was easy!</h1>'
-};
-
-
 
 const app = express();
 
@@ -42,9 +28,6 @@ app.use(cookieSession({
 app.use(helmet());
 app.use(boom());
 app.use(cors());
-
-// app.use(busboy());
-// app.use(busboyBodyParser());
 
 require('./config/passport')(passport); // pass passport for configuration
 
