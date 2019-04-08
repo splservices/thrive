@@ -6,11 +6,16 @@ const uuid = require('uuid');
 const aws = require('aws-sdk');
 const multerS3 = require('multer-s3');
 const randomstring = require("randomstring");
-const { createPost, getAllPosts, uploadMedia, deletePost } = require('../../controllers/post.controller');
+const { createPost, getAllPosts, uploadMedia, likePost, unlikePost, postLikes, deletePost } = require('../../controllers/post.controller');
 const Media = require('../../models/media.model');
 
+aws.config.update({
+    secretAccessKey:'zEVWmSeO9CkUh+pVA6f9EqniuTlTzm2kQ8767hUW',
+    accessKeyId:'AKIAICAGMTQAP24NTIBA',
+    region:'us-east-2'
+});
 
-const s3 = new aws.S3({ /* ... */ })
+const s3 = new aws.S3({ /* ... */ });
 
 const upload = multer({
     storage: multerS3({
@@ -27,11 +32,11 @@ const upload = multer({
     })
 });
 
-const singleUpload = upload.single('postImage');
+const postUpload = upload.single('postImage');
 
 const uploadMiddleware = (req, res, next)=>{
 
-    singleUpload(req, res, function(err){
+    postUpload(req, res, function(err){
         if(err) return res.send({err:err});
         let media = new Media({url:req.file.location});
         media.save((err)=>{
@@ -48,5 +53,8 @@ const uploadMiddleware = (req, res, next)=>{
 router.post('/', createPost);
 router.post('/media', uploadMiddleware);
 router.get('/', getAllPosts);
+router.post('/:postId/like', likePost);
+router.post('/:postId/unlike', unlikePost);
+router.get('/:postId/likes', postLikes);
 router.delete('/:postId', deletePost);
 module.exports = router;

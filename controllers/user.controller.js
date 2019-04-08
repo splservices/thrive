@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const secret = require('../config/constant').jwt_secret;
 const User = require('../models/user.model');
+const { avatarUpload } = require('../multer.service');
 
 const singleUser = (req, res)=>{
     let criteria = {};
@@ -32,6 +33,32 @@ const singleUser = (req, res)=>{
                 })
             }
         })
+};
+
+const uploadAvatar = (req, res, next)=>{
+    const {userId }= req.params;
+    console.log(`uploading avatar ${userId}`)
+    avatarUpload(req, res, function(err){
+        if(err) return res.send({err:err});
+
+        User.findOneAndUpdate({username:userId}, {$set:{face:req.file.location}},{new:true},(err, user)=>{
+            return res.send({
+                success:true,
+                data:user
+            })
+        })
+
+        //
+        // let media = new Media({url:req.file.location});
+        // media.save((err)=>{
+        //     if(err) return res.send({err:err});
+        //     return res.send({
+        //         success:true,
+        //         data:media
+        //     })
+        // });
+
+    })
 };
 
 const followUser = (req,res)=>{
@@ -85,4 +112,4 @@ const unfollowUser = (req, res)=>{
 };
 
 
-module.exports = { singleUser, followUser, unfollowUser };
+module.exports = { singleUser,uploadAvatar, followUser, unfollowUser };
