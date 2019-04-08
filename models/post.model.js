@@ -65,11 +65,17 @@ var PostSchema = new Schema({
         type: Boolean,
         default: false
     },
+    likedByMe:{
+        type:Boolean,
+        default:false
+    },
     hasMoreComments: {
         type: Number,
         default: 0
     }
 });
+
+
 
 /**
  * Methods
@@ -92,12 +98,13 @@ PostSchema.methods = {
         return obj;
     },
     afterSave: function(user, limitComments) {
-        var obj = this;
-        obj.liked = obj.likes.indexOf(user._id) != -1;
-        if (limitComments && obj.comments && obj.comments.length > 3) {
-            obj.hasMoreComments = obj.comments.length - 3;
-            obj.comments = obj.comments.slice(0, 3);
-        }
+        const obj = this;
+        obj.liked = obj.likes.indexOf(user._id) !== -1;
+        console.log(obj)
+        // if (limitComments && obj.comments && obj.comments.length > 3) {
+        //     obj.hasMoreComments = obj.comments.length - 3;
+        //     obj.comments = obj.comments.slice(0, 3);
+        // }
         return obj;
     },
     getMentionedUsers: function(cb) {

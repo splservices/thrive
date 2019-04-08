@@ -9,11 +9,7 @@ const randomstring = require("randomstring");
 const { createPost, getAllPosts, uploadMedia, likePost, unlikePost, postLikes, deletePost } = require('../../controllers/post.controller');
 const Media = require('../../models/media.model');
 
-aws.config.update({
-    secretAccessKey:'zEVWmSeO9CkUh+pVA6f9EqniuTlTzm2kQ8767hUW',
-    accessKeyId:'AKIAICAGMTQAP24NTIBA',
-    region:'us-east-2'
-});
+
 
 const s3 = new aws.S3({ /* ... */ });
 
